@@ -25,9 +25,10 @@
 #include "exceptions.h"
 #endif
 
+//Lindino
 extern "C" {
-  void init_timestep_();
-  void exit_timestep_();
+  void init_application_();
+  void end_application_();
 }
 
 using namespace LAMMPS_NS;
@@ -38,7 +39,10 @@ using namespace LAMMPS_NS;
 
 int main(int argc, char **argv)
 {
-  init_timestep_();
+  
+  // LINDINO
+  init_application_();
+  
   MPI_Init(&argc,&argv);
 
 // enable trapping selected floating point exceptions.
@@ -75,6 +79,6 @@ int main(int argc, char **argv)
   delete lammps;
 #endif
   MPI_Barrier(MPI_COMM_WORLD);
-  exit_timestep_();
+  end_application_(); //Lindino
   MPI_Finalize();
 }

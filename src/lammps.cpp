@@ -57,6 +57,13 @@
 #include "lmpinstalledpkgs.h"
 #include "lmpgitversion.h"
 
+//LINDINO
+extern "C" {
+  void set_early_stop_(int);
+  void set_out_file(char*);
+  void set_enable(int);
+}
+
 static void print_style(FILE *fp, const char *str, int &pos);
 
 struct LAMMPS_NS::package_styles_lists {
@@ -160,6 +167,9 @@ LAMMPS::LAMMPS(int narg, char **arg, MPI_Comm communicator) :
   }
 
   // parse input switches
+  int stop_flag = 0;   //Lindino
+  int out_file_pi = 0; //Lindino
+  int enable_pi = 0;   //Lindino
 
   int inflag = 0;
   int screenflag = 0;
@@ -220,7 +230,28 @@ LAMMPS::LAMMPS(int narg, char **arg, MPI_Comm communicator) :
         citefile = arg[iarg+1];
       }
       iarg += 2;
-
+    
+    // Lindino
+    } else if (strcmp(arg[iarg],"-outFilePI") == 0) {
+      if (iarg+2 > narg)
+        error->universe_all(FLERR,"Invalid command-line argument");
+      out_file_pi = iarg + 1;
+      iarg += 2;
+    
+    // Lindino
+    } else if (strcmp(arg[iarg],"-itStop") == 0) {
+      if (iarg+2 > narg) 
+        error->universe_all(FLERR,"Invalid command-line argument");
+      stop_flag = iarg + 1;
+      iarg += 2;
+    
+    // Lindino
+    } else if (strcmp(arg[iarg],"-enablePI") == 0) {
+      if (iarg+1 > narg) 
+        error->universe_all(FLERR,"Invalid command-line argument");
+      enable_pi = 1;
+      iarg += 1;
+    
     } else if (strcmp(arg[iarg],"-echo") == 0 ||
                strcmp(arg[iarg],"-e") == 0) {
       if (iarg+2 > narg)
@@ -411,6 +442,15 @@ LAMMPS::LAMMPS(int narg, char **arg, MPI_Comm communicator) :
 
     } else error->universe_all(FLERR,"Invalid command-line argument");
   }
+
+  //Lindino
+
+  if (universe->existflag && stop_flag == 0)    error->universe_all(FLERR,"Must use -isStop switch with multiple partitions");
+  if (universe->existflag && out_file_pi == 0)  error->universe_all(FLERR,"Must use -outFilePI switch with multiple partitions");
+  
+  if (stop_flag != 0)   set_early_stop_(atoi(arg[stop_flag]));
+  if (out_file_pi != 0) set_out_file(arg[out_file_pi]);
+  if (enable_pi != 0)   set_enable(enable_pi);
 
   // if no partition command-line switch, universe is one world with all procs
 

@@ -33,9 +33,10 @@
 
 #include <cstring>
 
+//Lindino
 extern "C" {
-  void begin_timestep_();
-  void end_timestep_();
+  void begin_iteration_();
+  void end_iteration_();
 }
 
 using namespace LAMMPS_NS;
@@ -244,7 +245,7 @@ void Verlet::run(int n)
   else sortflag = 0;
 
   for (int i = 0; i < n; i++) {
-    begin_timestep_();
+    begin_iteration_(); //Lindino
     if (timer->check_timeout(i)) {
       update->nsteps = i;
       break;
@@ -357,7 +358,7 @@ void Verlet::run(int n)
       output->write(ntimestep);
       timer->stamp(Timer::OUTPUT);
     }
-    end_timestep_();
+    end_iteration_(); //Lindino
   }
 }
 
