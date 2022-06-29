@@ -9,9 +9,9 @@ NODERANK=$3
 ITSTOP=$4
 OUTFILENAME=$5
 
-if [ ! -d "results" ]; then
-mkdir results || fail "Could not create the results directory"
-fi
+# if [ ! -d "results" ]; then
+# mkdir results || fail "Could not create the results directory"
+# fi
 
 # Run command inside docker at directory $(pwd)/bench
 docker run --rm --user=$(id -u):$(id -g) -v $(pwd):$(pwd) -w $(pwd)/bench ubuntu:mpi-dev \
