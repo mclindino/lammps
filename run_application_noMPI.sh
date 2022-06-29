@@ -1,4 +1,4 @@
-function fail() {
+fail () {
   echo "ERROR: $@"
   exit 1
 }

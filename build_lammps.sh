@@ -1,5 +1,5 @@
 # Function to report errors and interrupt the script execution
-function fail() {
+fail () {
 	echo "ERROR: $@"
 	exit 1
 }
