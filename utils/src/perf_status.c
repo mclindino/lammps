@@ -81,7 +81,8 @@ void print_timestep(int type)
         break;
       
       case PRINT_APPLICATION:
-        printf("[APP-INFO] Application Info: Paramount Interations (PI)=%i\tAverage of PI=%f\tTotal time=%f\n", current_iteration, (double) accumulated_time/current_iteration, total_time_application);
+        if (enable_pi) printf("[APP-INFO] Application Info: Paramount Interations (PI)=%i\tAverage of PI=%f\tTotal time=%f\n", current_iteration, (double) accumulated_time/current_iteration, total_time_application);
+        if (!enable_pi) printf("[APP-INFO] Application Info:Total time=%f\n", total_time_application);
         break;
     }
   } else

@@ -4,10 +4,11 @@ fail () {
 }
 
 INPUT=$1
-HOSTFILE=$2
-NODERANK=$3
-ITSTOP=$4
-OUTFILENAME=$5
+NODES=$2
+HOSTS=$3
+RANK=$4
+ITSTOP=$5
+OUTFILENAME=$6
 
 # if [ ! -d "results" ]; then
 # mkdir results || fail "Could not create the results directory"
@@ -15,5 +16,6 @@ OUTFILENAME=$5
 
 # Run command inside docker at directory $(pwd)/bench
 docker run --rm --user=$(id -u):$(id -g) -v $(pwd):$(pwd) -w $(pwd)/bench ubuntu:mpi-dev \
-	mpirun -np $NODERANK --host $HOSTFILE ../build/lmp -in $INPUT -enablePI -itStop $ITSTOP -outFilePI $OUTFILENAME 1> results/in.spce.results.N.2.out 2> results/in.spce.results.N.2.err || \
+	mpirun --allow-run-as-root -np $NODES --host $HOSTS ../build/lmp -in $INPUT -enablePI -itStop $ITSTOP -outFilePI $OUTFILENAME 1> results/in.spce.results.$RANK.out 2> results/in.spce.results.$RANK.err || \
 	fail "Error when executing LAMMPS"
+
