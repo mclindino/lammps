@@ -60,7 +60,7 @@ void end_iteration_()
     accumulated_time += end_time_pi;
 
     print_timestep(PRINT_ITERATION);
-    if(early_stop && current_iteration == stop_in) {
+    if(early_stop && accumulated_time >= stop_in) {
       MPI_Finalize();
       if (extern_file) fclose(out_file);
       exit(0);
