@@ -6,7 +6,7 @@ void set_out_file(char* fileName)
   
   char path[80];
   strcpy(path, "../results/"); strcat(path, fileName); strcat(path, ".csv");
-  out_file = fopen(path, "a");
+  out_file = fopen(path, "w");
   fprintf(out_file, "Rank,ParamountIteration,IterationTime,AccumulatedTime\n");
 }
 
