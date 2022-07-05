@@ -72,8 +72,8 @@ void print_timestep(int type)
 {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  if (extern_file == false)
-  {
+//   if (extern_file == false)
+//   {
     switch(type)
     {
       case PRINT_ITERATION:
@@ -85,14 +85,14 @@ void print_timestep(int type)
         if (!enable_pi) printf("[APP-INFO] Application Info:Total time=%f\n", total_time_application);
         break;
     }
-  } else
+  //} else
+  if (extern_file == true) 
   {
     fprintf(out_file, "%i", rank); fprintf(out_file, ",");
     fprintf(out_file, "%i", current_iteration); fprintf(out_file, ",");
     fprintf(out_file, "%f", end_time_pi); fprintf(out_file, ",");
     fprintf(out_file, "%f", accumulated_time); fprintf(out_file, "\n");
   }
-
 }
 
 void set_enable(int x)
